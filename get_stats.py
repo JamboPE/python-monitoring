@@ -1,6 +1,7 @@
 import subprocess
 import os
 import datetime
+import socket
 
 # Bash stuff
 
@@ -151,7 +152,7 @@ if __name__ == "__main__":
     
     #Change these
     discord_webhook_url = #https://discord.com/api/webhooks/"
-    hostname = #hostname
+    hostname = socket.gethostname()
     # Kuma push URLs
     mem_push_url = #"https://uptime.kuma.com/api/push/key?&" #ping=num #status=up #message=OK
     cpu_push_url = #"https://uptime.kuma.com/api/push/key?&" #ping=num #status=up #message=OK
