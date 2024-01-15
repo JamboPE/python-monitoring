@@ -202,12 +202,12 @@ if __name__ == "__main__":
         kuma_push(cpu_temp_push_url,cpu_temp,"down")
         if rw_file("r",3,"dummy",filename) != "0":
             rw_file("w",3,"0",filename)
-            discord_webhook(bash_script,"CPU Temp Above "+str(cpu_temp_threshold)+"%",hostname,"CPU Temp",cpu_temp+"°C","critical",discord_webhook_url)
+            discord_webhook(bash_script,"CPU Temp Above "+str(cpu_temp_threshold)+"°C",hostname,"CPU Temp",cpu_temp+"°C","critical",discord_webhook_url)
     else:
         kuma_push(cpu_temp_push_url,cpu_temp,"up")
         if rw_file("r",3,"dummy",filename) != "1":
             rw_file("w",3,"1",filename)
-            discord_webhook(bash_script,"CPU Temp Below "+str(cpu_temp_threshold)+"%",hostname,"CPU Temp",cpu_temp+"°C","up",discord_webhook_url)
+            discord_webhook(bash_script,"CPU Temp Below "+str(cpu_temp_threshold)+"°C",hostname,"CPU Temp",cpu_temp+"°C","up",discord_webhook_url)
 
     # Check / disk
     disk = disk_check(disk1,"basic")
