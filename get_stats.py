@@ -74,7 +74,7 @@ def dns_check():
 
 def swap_check(return_type):
     # Returns SWAP: %usage, free, total
-    swap_info = str(bash_to_string(run_bash_command("cat /proc/swaps | grep 'swapfile' | awk '{print $3,$4}'")).replace("\\t"," ")).split(" ")
+    swap_info = str(bash_to_string(run_bash_command("cat /proc/swaps | grep -v 'Filename' | awk '{print $3,$4}'")).replace("\\t"," ")).split(" ")
     swap_total = round(int(swap_info[0])*0.0009765625*0.0009765625,1)
     swap_free = round(int(swap_info[1])*0.0009765625*0.0009765625,1)
     swap_percent = (swap_free/swap_total)*100
@@ -151,15 +151,15 @@ if __name__ == "__main__":
     filename = str(os.path.dirname(os.path.abspath(__file__)))+"/prev_states"
     
     #Change these
-    discord_webhook_url = #https://discord.com/api/webhooks/"
+    discord_webhook_url = ""
     hostname = socket.gethostname()
-    # Kuma push URLs
-    mem_push_url = #"https://uptime.kuma.com/api/push/key?&" #ping=num #status=up #message=OK
-    cpu_push_url = #"https://uptime.kuma.com/api/push/key?&" #ping=num #status=up #message=OK
-    cpu_temp_push_url = #"https://uptime.kuma.com/api/push/key?&" #ping=num #status=up #message=OK
-    disk_push_url = #"https://uptime.kuma.com/api/push/key?&" #ping=num #status=up #message=OK
-    swap_push_url = #"https://uptime.kuma.com/api/push/key?&" #ping=num #status=up #message=OK
-    service_push_url = #"https://uptime.kuma.com/api/push/key?&" #ping=num #status=up #message=OK
+    # Kuma push URLs - REMOVE EVERTHING AFTER THE ? - eg https://uptime.kuma.com/api/push/key - remove ping=num&status=up&message=OK
+    mem_push_url = ""
+    cpu_push_url = ""
+    cpu_temp_push_url = ""
+    disk_push_url = ""
+    swap_push_url = ""
+    service_push_url = ""
 
     # Thresholds
     mem_threshold = 80
@@ -236,8 +236,9 @@ if __name__ == "__main__":
             discord_webhook(bash_script,"Swap Usage Below "+str(swap_threshold)+"%",hostname,"Swap Usage",swap+"%","up",discord_webhook_url)
 
     # Check service
-    service_active = service_check(service1,"basic")[0]
-    service_enabled = service_check(service1,"basic")[1]
+    service = service1
+    service_active = service_check(service,"basic")[0]
+    service_enabled = service_check(service,"basic")[1]
 
     if service_active == "inactive" or service_enabled == "disabled":
         kuma_push(service_push_url,"0","down")
