@@ -167,7 +167,7 @@ if __name__ == "__main__":
     cpu_temp_threshold = 70
     disk_threshold = 90
     swap_threshold = 70
-    service1 = "docker"
+    service1 = "sshd"
     disk1 = "/"
     
     # Check memory
@@ -230,7 +230,7 @@ if __name__ == "__main__":
             rw_file("w",5,"0",filename)
             discord_webhook(bash_script,"Swap Usage Above "+str(swap_threshold)+"%",hostname,"Swap Usage",swap+"%","critical",discord_webhook_url)
     else:
-        kuma_push(swap_push_url,disk,"up")
+        kuma_push(swap_push_url,swap,"up")
         if rw_file("r",5,"dummy",filename) != "1":
             rw_file("w",5,"1",filename)
             discord_webhook(bash_script,"Swap Usage Below "+str(swap_threshold)+"%",hostname,"Swap Usage",swap+"%","up",discord_webhook_url)
