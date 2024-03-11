@@ -15,7 +15,7 @@ def bash_to_string(command):
 
 def mem_check(return_type):
     # Returns RAM: %usage, free, total
-    mem_info = bash_to_string(run_bash_command("cat /proc/meminfo | grep -E 'MemTotal|MemFree' | awk '{print $2}'")).split("\\n")
+    mem_info = bash_to_string(run_bash_command("cat /proc/meminfo | grep -E 'MemTotal|MemAvailable' | awk '{print $2}'")).split("\\n")
     mem_total = round(int(mem_info[0])*0.0009765625*0.0009765625,1)
     mem_free = round(int(mem_info[1])*0.0009765625*0.0009765625,1)
     mem_percent = 100-((mem_free/mem_total)*100)
@@ -198,7 +198,7 @@ if __name__ == "__main__":
     
     # Check cpu temp
     cpu_temp = cpu_check(1,"basic")[1][:-4]
-    if float(cpu) > cpu_temp_threshold:
+    if float(cpu_temp) > cpu_temp_threshold:
         kuma_push(cpu_temp_push_url,cpu_temp,"down")
         if rw_file("r",3,"dummy",filename) != "0":
             rw_file("w",3,"0",filename)
